@@ -9,7 +9,7 @@ const UserModel = require("../models/user-model.js");
 // serializeUser (controls what goes inside the bowl)
 //  - save only the users database ID in the bowl
 //  - happens ONLY when you log in
-passport.serializeUser((userFromDB, next) => {
+passport.serializeUser((userFromDb, next) => {
   next(null, userFromDb._id);
 });
 
@@ -58,16 +58,18 @@ UserModel.findOne(
       next(null, false);
       return;
     }
+
+    // #2 If there is a user with that username, is the PASSWORD correct?
+  if (bcrypt.compareSync(formPassword, userFromDb.encryptedPassword) === false) {
+        next(null, false);
+  }
+  // If we pass those if statements, LOGIN SUCCESS!
+  next(null, userFromDb);
+  // In Passport, if you call next() with a user in the 2nd position
+  // that means LOGIN SUCCESS!!
   }
 );
 
-      // #2 If there is a user with that username, is the PASSWORD correct?
-    if (bcrypt.compareSync(formPassword, userFromDb.encryptedPassword) === false) {
-          next(null, false);
-    }
-    // If we pass those if statements, LOGIN SUCCESS!
-    next(null, userFromDb);
-    // In Passport, if you call next() with a user in the 2nd position
-    // that means LOGIN SUCCESS!!
+
 }
 ));

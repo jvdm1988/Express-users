@@ -13,9 +13,20 @@
       <nav>
         <a href="/"> Home </a>
         <br>
+
+        <% if (typeof currentUser === "object") { %>
+        <a href="/logout"> Log Out </a>
+        <br>
+      <% } else { %>
         <a href="/signup"> Sign Up </a>
         <br>
         <a href="/login"> Log In </a>
+        <br>
+      <% } %>
+
+
+        <a href="/logout"> Log Out </a>
+        <br>
       </nav>
 </header>
 

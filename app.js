@@ -43,6 +43,18 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// THIS MIDDLEWARE CREATES the "currentuser" for ALL views
+// (if the user is logged in)
+app.use((req, res, next) => {
+  // Check if the user IS logged in
+  if (req.user) {
+    res.locals.currentUser = req.user;
+  }
+  // If you dont type next(), your pages will load forever
+  next();
+});
+
+
 // ROUTES -----------------------------------------------
 
 const index = require('./routes/index');

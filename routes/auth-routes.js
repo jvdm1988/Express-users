@@ -77,7 +77,11 @@ router.post("/login", passport.authenticate (
 ));
 
 //END LOG IN --------------------------------------------------------------
-
+router.get("/logout", (req, res, next) => {
+  // req.logout works only because passport middleware is set up in app.js
+  req.logout();
+  res.redirect("/");
+});
 
 
 
