@@ -66,7 +66,7 @@ router.get("/login", (req, res, next) => {
   if (req.user) {
     res.redirect("/");
   }
-  // If not logged in, show the log in page 
+  // If not logged in, show the log in page
   else {
   res.render("auth-views/login-view.ejs");
 }
@@ -90,6 +90,48 @@ router.get("/logout", (req, res, next) => {
   res.redirect("/");
 });
 
+
+// SOCIAL LOGINS ---------------------------------------------------------
+
+// FACEBOOK -------------------------------------------------------
+                                      // Determined by the strategy npm package
+router.get("/auth/facebook", passport.authenticate("facebook"));
+              //  |
+        // Go here to login in facebook
+router.get("/auth/facebook/callback",
+  passport.authenticate(
+    "facebook",       // 1st arg -> name of the strategy
+    {                 // 2nd arg -> settings object
+      successRedirect: "/special",
+      failureRedirect: "/login",
+    }
+  ));
+
+  // GOOGLE ------------------------------------------------------
+
+  // Determined by the strategy npm package
+router.get("/auth/google",
+    passport.authenticate(
+      "google",
+      {
+        scope: [
+          "https://www.googleapis.com/auth/plus.login",
+          "https://www.googleapis.com/auth/plus.profile.emails.read"
+        ]
+      }
+    ));
+                    //  |
+                    // Go here to login in Google
+router.get("/auth/google/callback",
+passport.authenticate(
+"google",       // 1st arg -> name of the strategy
+{                 // 2nd arg -> settings object
+successRedirect: "/special",
+failureRedirect: "/login",
+}
+));
+
+// END SOCIAL LOGINS -----------------------------------------------------
 
 
 module.exports = router;

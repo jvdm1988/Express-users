@@ -3,7 +3,7 @@
 <p> Sign up to this awesome app. </p>
 
 <!-- We use typeof here to avoid an error since the variable sometimes
-    doesnt exist --> 
+    doesnt exist -->
 <% if (typeof messageForDumbUsers === "string") { %>
   <p class="error-message"> <%= messageForDumbUsers%> </p>
 <% } %>
@@ -29,3 +29,9 @@
   <button>Sign Up </button>
     <br>
 </form>
+
+<a href="/auth/facebook"> Log In with Facebook </a>
+<br>
+
+<a href="/auth/google"> Log In with Google </a>
+<br>

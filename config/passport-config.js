@@ -74,13 +74,13 @@ UserModel.findOne(
 }
 ));
 
-// passport-facebook (log in with your Facebook account) ----------------
+// PASSPORT - FACEBOOK (log in with your Facebook account) ----------------
 const FbStrategy = require ('passport-facebook').Strategy;
 
 passport.use(new FbStrategy(
   {     // 2st arg -> settings object
-    clientID: "blah blah",
-    clientSecret: "blah blah blah",
+    clientID: "1588125127867180",
+    clientSecret: "b15dc74c823bd648e879e4f2f8f4aab7",
     callbackURL: '/auth/facebook/callback'
   },                // our route (name this whatever you want)
 
@@ -118,8 +118,56 @@ passport.use(new FbStrategy(
       });
     }
   );
+  }
+));
 
-          // Receiving the Facebook user info and SAVING IT!
-          // Unless we have already saved their info, in which case we log them in
+// PASSPORT - GOOGLE (log in with your GOOGLE account) ----------------
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
+
+passport.use(new GoogleStrategy(
+  {     // 2st arg -> settings object
+    clientID: "GET CREDENTIALS",
+    clientSecret: "GET CREDENTIALS",
+    callbackURL: '/auth/google/callback'
+  },                // our route (name this whatever you want)
+
+(accessToken, refreshToken, profile, next) => {   // 2nd arg -> callback
+          // (will be called when a user allows us to log them in with FB)
+    console.log("");
+    console.log("------GOOGLE PROFILE INFO------");
+    console.log(profile);
+    console.log("");
+
+    UserModel.findOne(
+    {googleId : profile.id},
+    (err, userFromDb) => {
+      // "userFromDb" will be empty If this is the first time
+      // the user logs in with Facebook
+
+      // Check if they have logged in before
+      if (userFromDb) {
+      // If they have, just log them in.
+        next(null, userFromDb);
+        return;
+      }
+
+      // If this is the first time, save them in the Database!
+      const theUser = new UserModel({
+        fullName: profile.displayName,
+        googleId: profile.id
+      });
+
+      if (theUser.fullName === undefined) {
+        theUser.fullName = profile.emails[0].value;
+      }
+      theUser.save((err) => {
+        if (err) {
+          next(err);
+          return;
+        }
+        next(null, theUser);
+      });
+    }
+  );
   }
 ));
