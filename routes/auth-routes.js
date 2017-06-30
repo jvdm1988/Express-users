@@ -62,7 +62,14 @@ const passport = require("passport");
 // LOG IN -----------------------------------------------------------------
 
 router.get("/login", (req, res, next) => {
+  // Redirect to home page if you are already logged in
+  if (req.user) {
+    res.redirect("/");
+  }
+  // If not logged in, show the log in page 
+  else {
   res.render("auth-views/login-view.ejs");
+}
 });
 
 router.post("/login", passport.authenticate (

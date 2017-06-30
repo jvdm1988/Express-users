@@ -15,6 +15,8 @@
         <br>
 
         <% if (typeof currentUser === "object") { %>
+          <a href="/special"> Special page for logged in Users </a>
+          <br>
         <a href="/logout"> Log Out </a>
         <br>
       <% } else { %>
@@ -24,9 +26,6 @@
         <br>
       <% } %>
 
-
-        <a href="/logout"> Log Out </a>
-        <br>
       </nav>
 </header>
 
