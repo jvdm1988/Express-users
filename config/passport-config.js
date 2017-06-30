@@ -126,8 +126,8 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 passport.use(new GoogleStrategy(
   {     // 2st arg -> settings object
-    clientID: "GET CREDENTIALS",
-    clientSecret: "GET CREDENTIALS",
+    clientID: "432455812477-g9dhvsjc7698o4399rfh7uo3ivlkotl0.apps.googleusercontent.com",
+    clientSecret: "p8IdIJp3L5LAW8eB0YdrjeUQ",
     callbackURL: '/auth/google/callback'
   },                // our route (name this whatever you want)
 
@@ -157,6 +157,7 @@ passport.use(new GoogleStrategy(
         googleId: profile.id
       });
 
+        // if displayName is empty, use e-mail instead
       if (theUser.fullName === undefined) {
         theUser.fullName = profile.emails[0].value;
       }
